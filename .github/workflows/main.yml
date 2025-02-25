@@ -16,14 +16,3 @@ jobs:
        cache: 'maven'
     - name: Build the code 
       run: mvn package
-    - name: Connect to Lab machine and trigger a Jenkins job 
-      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-      with:
-        host: '43.205.118.149'
-        user: 'labuser'
-        pass: 'Nuvelabs123$'
-        port: 22
-        connect_timeout: 10s
-        first_ssh: |
-          curl -l -u admin:Root123$ http://localhost:8080/job/Githubaction_trigger/build?token=token1    
-    
