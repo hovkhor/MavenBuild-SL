@@ -16,3 +16,17 @@ jobs:
        cache: 'maven'
     - name: Build the code 
       run: mvn package
+    - name: Connect to Lab machine and Deploy the code on tomcat9 
+      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      with:
+        host: '13.201.123.80'
+        user: 'labuser'
+        pass: ${{secrets.LAB_PASSWORD}}
+        port: 22
+        connect_timeout: 10s
+        first_ssh: |
+          sudo chmod 777 /var/lib/tomcat9/webapps    
+        scp: |
+          './target/*war' => /var/lib/tomcat9/webapps
+        last_ssh: |
+          sudo systemctl restart tomcat9
